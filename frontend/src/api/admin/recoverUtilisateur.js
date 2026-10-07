@@ -1,0 +1,24 @@
+import getToken from "../../hooks/adminToken";
+
+const recoverUtilisateur = async (demandeur_id) => {
+  const uri = import.meta.env.VITE_API_URL;
+  const token =getToken();
+  const response = await fetch(`${uri}/api/admin/demandeur/recover-demandeur/${demandeur_id}`, {
+    method: "PUT",
+    headers: {
+      accept: "application/json",
+         'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      "Le traitement de votre demande n’a pas pu aboutir. Veuillez réessayer ultérieurement. lors de la reucperation de cet utilisateur",
+    );
+  }
+
+  return data;
+};
+export default recoverUtilisateur;

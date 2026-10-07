@@ -1,0 +1,275 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StatutCompte {
+  ACTIF
+  INACTIF
+  SUSPENDU
+}
+
+enum TypeDemande {
+  NOUVELLE
+  RENOUVELLEMENT
+  PERTE
+  CARTE_DETERIORER
+  CHANGEMENT_DONNEES
+
+}
+
+enum Genre {
+  HOMME
+  FEMME
+}
+
+enum StatutDemande {
+  EN_ATTENTE
+  EN_COURS
+  APPROUVEE
+  REJETEE
+  TERMINEE
+}
+
+enum StatutPaiement {
+  REUSSI
+  EN_ATTENTE
+  ECHOUE
+}
+
+enum StatutRecipisser {
+  VALIDE
+  INVALIDE
+}
+model Utilisateur {
+  id                 String   @id @default(cuid())
+  nud                String?   @unique
+  nom                String
+  prenom             String
+  email              String   @unique
+  telephone          String   @unique
+  mot_de_passe       String?
+  date_naissance     DateTime?
+  lieux_naissance    String?
+  prenom_pere        String?
+  prenom_mere        String?
+  profession         String?
+  genre              Genre
+  statut             StatutCompte @default(INACTIF)
+  date_creation      DateTime     @default(now())
+
+  // Acte de naissance
+  numero_acte        String?
+  commune_acte       String?
+  date_acte          DateTime?
+
+  // Certificat de nationalité
+  numero_certificat  String?
+  tribunal           String?
+
+  delelet_at      Boolean @default(false)
+  roles    UtilisateurRole[]
+  demandes Demande[]
+  photos   UserPhoto[]
+  adresse  Adresse?
+  // agent Agent?
+  otps     Otp[]
+  personnesPrevenir Personne_A_Prevenir[]
+  
+@@map("utilisateur") 
+  @@unique([numero_acte, commune_acte, date_acte])
+  @@unique([numero_certificat, tribunal])
+}
+
+model Role {
+  id           String            @id @default(cuid())
+  libelle      String            @unique
+  description  String?
+  utilisateurs UtilisateurRole[]
+
+  @@map("roles")
+}
+
+// model Emprunt {
+  
+// }
+model Personne_A_Prevenir {
+  persone_id  String            @id @default(cuid())
+  nom String
+  prenom String
+  telephone String
+  utilisateur_id String
+  utilisateur Utilisateur @relation(fields: [utilisateur_id],references: [id],onDelete: Cascade)
+
+  @@map("personnes_a_prevenir")
+}
+
+model UtilisateurRole {
+  utilisateur_id   String
+  role_id          String
+  date_attribution DateTime    @default(now())
+
+  utilisateur Utilisateur @relation(fields: [utilisateur_id], references: [id], onDelete: Cascade)
+  role        Role        @relation(fields: [role_id], references: [id], onDelete: Cascade)
+
+  @@id([utilisateur_id, role_id])
+  @@map("utilisateur_roles")
+}
+
+model Demande {
+  id                String        @id @default(cuid())
+  utilisateur_id    String
+  type_demande      TypeDemande
+  statut            StatutDemande @default(EN_ATTENTE)
+  date_creation     DateTime      @default(now())
+  date_modification DateTime      @updatedAt
+
+  utilisateur Utilisateur @relation(fields: [utilisateur_id], references: [id])
+  documents   Document[]
+  paiement    Paiement?
+  recepisse   Recepisse?
+  rendezvous  RendezVous?
+  delelet_at      Boolean @default(false)
+  @@map("demandes")
+}
+
+model Document {
+  id                 String   @id @default(cuid())
+  demande_id         String
+  numero_acte        String?
+  numero_nationalite String?
+  type_document      String
+  fichier            String
+  date_upload        DateTime @default(now())
+  demande Demande @relation(fields: [demande_id], references: [id], onDelete: Cascade)
+
+  @@map("documents")
+}
+
+model Paiement {
+  id            String    @id @default(cuid())
+  demande_id    String    @unique
+  montant       Decimal   @db.Decimal(10, 2)
+  statut        StatutPaiement    @default(EN_ATTENTE)
+  mode_paiement String?
+  reference     String   @unique
+  date_paiement DateTime  @default(now())
+  update_at DateTime @default(now())
+  transId String?
+  demande Demande @relation(fields: [demande_id], references: [id], onDelete: Cascade)
+  delelet_at      Boolean @default(false)
+  @@map("paiements")
+}
+
+model Recepisse {
+  id                 String   @id @default(cuid())
+  demande_id         String   @unique
+  numero_dossier     String   @unique
+  qr_code            String
+  date_generation    DateTime @default(now())
+  statut_utilisation StatutRecipisser   @default(VALIDE)
+
+  demande Demande @relation(fields: [demande_id], references: [id], onDelete: Cascade)
+
+  @@map("recepisse")
+}
+model CentreAgent {
+  id String @id @default(cuid())
+
+  centre_id String
+  agent_id String
+
+  centre Centre @relation(fields: [centre_id],references: [id],onDelete: Cascade)
+
+  // agent Agent @relation(fields: [agent_id],references: [id],onDelete: Cascade)
+
+  @@unique([centre_id, agent_id])
+
+  @@map("centreAgent")
+}
+// model Agent{
+//   id String @id @default(cuid())
+
+//   utilisateur_id String @unique
+//   matricule String @unique
+// centreAgent CentreAgent[]
+//   utilisateur Utilisateur @relation(fields: [utilisateur_id],references: [id],onDelete: Cascade)
+// }
+model Centre {
+  id                   String   @id @default(cuid())
+  nom                  String
+  region               String
+  province             String
+  commune              String
+  capacite_journaliere Int
+  statut               Boolean  @default(true)
+
+  creneaux Creneau[]
+  agent CentreAgent []
+  delelet_at      Boolean @default(false)
+  @@map("centres")
+}
+
+model Creneau {
+  id                 String   @id @default(cuid())
+  centre_id          String
+  date               DateTime @db.Date
+  heure              String
+  places_disponibles Int
+
+  centre     Centre       @relation(fields: [centre_id], references: [id])
+  rendezvous RendezVous[]
+
+  @@unique([centre_id, date, heure])
+  @@map("creneaux")
+}
+
+model RendezVous {
+  id                String   @id @default(cuid())
+  demande_id        String   @unique
+  creneau_id        String
+  statut            String   @default("CONFIRME")
+  date_confirmation DateTime @default(now())
+
+  demande Demande @relation(fields: [demande_id], references: [id], onDelete: Cascade)
+  creneau Creneau @relation(fields: [creneau_id], references: [id])
+
+  @@map("rendezvous")
+}
+
+model UserPhoto {
+  id             String      @id @default(cuid())
+  utilisateur_id String
+  photo          String
+  utilisateur    Utilisateur @relation(fields: [utilisateur_id], references: [id], onDelete: Cascade)
+
+  @@map("user_photos")
+}
+
+model Adresse {
+  id              String      @id @default(cuid())
+  adres_residence String
+  ville_province  String
+  utilisateur_id  String      @unique
+  utilisateur     Utilisateur @relation(fields: [utilisateur_id], references: [id], onDelete: Cascade)
+
+  @@map("adresses")
+}
+
+model Otp {
+  id             String   @id @default(cuid())
+  utilisateur_id String   @unique
+  code           String
+  expire_at      DateTime
+  utilise        Boolean  @default(false)
+  date_creation  DateTime @default(now())
+
+  utilisateur Utilisateur @relation(fields: [utilisateur_id], references: [id], onDelete: Cascade)
+
+  @@map("otps")
+}

@@ -1,0 +1,85 @@
+services:
+  postgres-oni:
+    image: postgres:15-alpine
+    container_name: postgres-oni
+    restart: unless-stopped
+    volumes:
+      - postgres_oni_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d e_concours"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    networks:
+      - oni-network
+    ports:
+      - "5432:5432"
+
+  redis-oni:
+    image: redis:7-alpine
+    container_name: redis-oni
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_oni_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - oni-network
+    ports:
+      - "6379:6379"
+
+  minio-oni:
+    image: minio/minio:latest
+    container_name: minio-oni
+    restart: unless-stopped
+    volumes:
+      - minio_oni_data:/data
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:9000/minio/health/live"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - oni-network
+
+  api-oni:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-oni
+    restart: unless-stopped
+    depends_on:
+      postgres-oni:
+        condition: service_healthy
+      redis-oni:
+        condition: service_healthy
+      minio-oni:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    networks:
+      - oni-network
+
+volumes:
+  postgres_oni_data:
+  redis_oni_data:
+  minio_oni_data:
+
+networks:
+  oni-network:
+    driver: bridge

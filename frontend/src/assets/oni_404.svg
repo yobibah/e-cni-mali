@@ -1,0 +1,79 @@
+<svg viewBox="0 0 680 340" width="680" height="340" xmlns="http://www.w3.org/2000/svg">
+  <title>Erreur 404 - DNEC</title>
+  <defs>
+    <style>
+      .a1{animation:ap 2.0s ease-in-out infinite}
+      .a2{animation:ap 2.0s ease-in-out infinite .18s}
+      .a3{animation:ap 2.0s ease-in-out infinite .36s}
+      .a4{animation:ap 2.0s ease-in-out infinite .54s}
+      .a5{animation:ap 2.0s ease-in-out infinite .72s}
+      .a6{animation:ap 2.0s ease-in-out infinite .90s}
+      .rs {animation:rs  3s linear infinite;transform-origin:340px 175px}
+      .rs2{animation:rs2 4s linear infinite;transform-origin:340px 175px}
+      @keyframes ap {0%,100%{opacity:.1}50%{opacity:.85}}
+      @keyframes rs {from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+      @keyframes rs2{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+    </style>
+    <clipPath id="cl4L">
+      <text x="88"  y="265" font-size="240" font-weight="900" font-family="Georgia,serif" text-anchor="middle">4</text>
+    </clipPath>
+    <clipPath id="cl0">
+      <text x="340" y="265" font-size="240" font-weight="900" font-family="Georgia,serif" text-anchor="middle">0</text>
+    </clipPath>
+    <clipPath id="cl4R">
+      <text x="592" y="265" font-size="240" font-weight="900" font-family="Georgia,serif" text-anchor="middle">4</text>
+    </clipPath>
+  </defs>
+
+  <!-- 4 GAUCHE rouge -->
+  <g clip-path="url(#cl4L)">
+    <rect x="0" y="45" width="176" height="240" fill="#CC0000"/>
+    <path class="a1" d="M88 102 Q126 102 126 140 Q126 178 88 191 Q50 178 50 140 Q50 102 88 102" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="a2" d="M88 90  Q138 90  138 140 Q138 190 88 205 Q38 190 38 140 Q38 90  88 90"  fill="none" stroke="#fff" stroke-width="2"   stroke-linecap="round"/>
+    <path class="a3" d="M88 78  Q150 78  150 140 Q150 202 88 219 Q26 202 26 140 Q26 78  88 78"  fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+    <path class="a4" d="M88 114 Q114 114 114 140 Q114 166 88 175 Q62 166 62 140 Q62 114 88 114" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="a5" d="M88 126 Q102 126 102 140 Q102 154 88 159 Q74 154 74 140 Q74 126 88 126" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="a6" d="M88 138 Q94  138 94  140 Q94  148 88 150 Q82 148 82 140 Q82 138 88 138" fill="none" stroke="#fff" stroke-width="3"   stroke-linecap="round"/>
+  </g>
+  <text x="88" y="265" font-size="240" font-weight="900" font-family="Georgia,serif" text-anchor="middle"
+        fill="none" stroke="#CC0000" stroke-width="1.5" opacity="0.25">4</text>
+
+  <!-- 0 vert -->
+  <g clip-path="url(#cl0)">
+    <rect x="196" y="45" width="288" height="240" fill="#009A44"/>
+    <path class="a1" d="M340 100 Q388 100 388 153 Q388 206 340 223 Q292 206 292 153 Q292 100 340 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="a2" d="M340 88  Q400 88  400 153 Q400 218 340 237 Q280 218 280 153 Q280 88  340 88"  fill="none" stroke="#fff" stroke-width="2"   stroke-linecap="round"/>
+    <path class="a3" d="M340 76  Q412 76  412 153 Q412 230 340 251 Q268 230 268 153 Q268 76  340 76"  fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+    <path class="a4" d="M340 112 Q376 112 376 153 Q376 194 340 207 Q304 194 304 153 Q304 112 340 112" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="a5" d="M340 124 Q364 124 364 153 Q364 182 340 191 Q316 182 316 153 Q316 124 340 124" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="a6" d="M340 136 Q348 136 348 153 Q348 165 340 168 Q332 165 332 153 Q332 136 340 136" fill="none" stroke="#fff" stroke-width="3"   stroke-linecap="round"/>
+  </g>
+  <g class="rs">
+    <circle cx="340" cy="175" r="112" fill="none" stroke="#CC0000" stroke-width="4"
+            stroke-dasharray="205 140" stroke-linecap="round" opacity="0.6"/>
+  </g>
+  <g class="rs2">
+    <circle cx="340" cy="175" r="124" fill="none" stroke="#FFD700" stroke-width="3"
+            stroke-dasharray="155 230" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  <text x="340" y="265" font-size="240" font-weight="900" font-family="Georgia,serif" text-anchor="middle"
+        fill="none" stroke="#009A44" stroke-width="1.5" opacity="0.25">0</text>
+
+  <!-- 4 DROIT rouge -->
+  <g clip-path="url(#cl4R)">
+    <rect x="504" y="45" width="176" height="240" fill="#CC0000"/>
+    <path class="a1" d="M592 102 Q630 102 630 140 Q630 178 592 191 Q554 178 554 140 Q554 102 592 102" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="a2" d="M592 90  Q642 90  642 140 Q642 190 592 205 Q542 190 542 140 Q542 90  592 90"  fill="none" stroke="#fff" stroke-width="2"   stroke-linecap="round"/>
+    <path class="a3" d="M592 78  Q654 78  654 140 Q654 202 592 219 Q530 202 530 140 Q530 78  592 78"  fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+    <path class="a4" d="M592 114 Q618 114 618 140 Q618 166 592 175 Q566 166 566 140 Q566 114 592 114" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="a5" d="M592 126 Q606 126 606 140 Q606 154 592 159 Q578 154 578 140 Q578 126 592 126" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+    <path class="a6" d="M592 138 Q598 138 598 140 Q598 148 592 150 Q586 148 586 140 Q586 138 592 138" fill="none" stroke="#fff" stroke-width="3"   stroke-linecap="round"/>
+  </g>
+  <text x="592" y="265" font-size="240" font-weight="900" font-family="Georgia,serif" text-anchor="middle"
+        fill="none" stroke="#CC0000" stroke-width="1.5" opacity="0.25">4</text>
+
+  <!-- Bande tricolore -->
+  <rect x="100" y="278" width="480" height="5" rx="3" fill="#CC0000"/>
+  <rect x="100" y="285" width="480" height="5" rx="3" fill="#FFD700"/>
+  <rect x="100" y="292" width="480" height="5" rx="3" fill="#009A44"/>
+</svg>

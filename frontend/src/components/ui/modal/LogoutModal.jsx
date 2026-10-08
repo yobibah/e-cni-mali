@@ -42,6 +42,7 @@ const LogOutModal = ({ setOpen }) => {
   const handleLogout = () => {
     toast.success('Deconnexion reussi');
     queryClient.clear();
+    localStorage.clear()
     setLoading(true)
     
     setTimeout(() => {

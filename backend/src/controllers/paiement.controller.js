@@ -102,15 +102,15 @@ class PaiementController {
       if (demande.type_demande === "NOUVELLE") {
         titre = "Nouvelle CNIB";
         description =
-          "Frais de demande de nouvelle carte nationale d'identité burkinabè";
+          "Frais de demande de nouvelle carte nationale d'identité malien";
       } else if (demande.type_demande === "RENOUVELLEMENT") {
         titre = "Renouvellement CNIB";
         description =
-          "Frais de renouvellement de la carte nationale d'identité burkinabè";
+          "Frais de renouvellement de la carte nationale d'identité malien";
       } else {
         titre = "Déclaration de perte CNIB";
         description =
-          "Frais de déclaration de perte de la carte nationale d'identité burkinabè";
+          "Frais de déclaration de perte de la carte nationale d'identité malien";
       }
 
       const yenga = new Yenga({ reference, titre, description, email });
@@ -216,15 +216,15 @@ class PaiementController {
       if (demande.type_demande === "NOUVELLE") {
         titre = "Nouvelle CNIB";
         description =
-          "Frais de demande de nouvelle carte nationale d'identité burkinabè";
+          "Frais de demande de nouvelle carte nationale d'identité malien";
       } else if (demande.type_demande === "RENOUVELLEMENT") {
         titre = "Renouvellement CNIB";
         description =
-          "Frais de renouvellement de la carte nationale d'identité burkinabè";
+          "Frais de renouvellement de la carte nationale d'identité malien";
       } else {
         titre = "Déclaration de perte CNIB";
         description =
-          "Frais de déclaration de perte de la carte nationale d'identité burkinabè";
+          "Frais de déclaration de perte de la carte nationale d'identité malien";
       }
 
       const yenga = new Yenga({ reference, titre, description, email });

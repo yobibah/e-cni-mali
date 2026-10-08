@@ -24,7 +24,7 @@ export function Footer() {
               Malien.
             </p>
             <div className="text-bf-gold font-medium text-sm italic">
-              "La Patrie ou la Mort nous Vaincrons"
+              "Un Peuple, Un But, Une Foi"
             </div>
           </div>
 
@@ -154,9 +154,6 @@ export function Footer() {
           </div>
         </div>
       </div>
-
-
-
-    </footer>
+   </footer>
   )
 }

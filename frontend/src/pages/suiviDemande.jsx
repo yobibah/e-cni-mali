@@ -350,26 +350,25 @@ const SuivreDemande = () => {
                   </div>
 
                   <div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+                    <h2 className=" sm:text-xl md:text-xl lg:text-2xl  font-bold text-gray-800">
                       Bonjour,{" "}
                       <span className="text-[#14B53A]">
                         {nom || "Citoyen"} {prenom || ""}
                       </span>
                     </h2>
 
-                    <p className="text-gray-600 mt-1">
+                    <p className="sm:text-sm md:text-md lg:text-lg text-gray-600 mt-1">
                       Bienvenue sur votre espace citoyen. Suivez vos demandes de
                       CNI en temps réel.
                     </p>
                   </div>
                 </div>
 
-                {/* Bouton */}
                 <button
                   onClick={() => navigate("/demande")}
-                  className="flex items-center justify-center gap-2 rounded-xl bg-[#14B53A] px-5 py-2.5 font-semibold text-white shadow-md transition-all duration-200 hover:bg-green-700 hover:shadow-lg active:scale-95"
+                  className="flex sm:text-sm md:text-md lg:text-lg items-center justify-center gap-2 rounded-xl bg-[#14B53A] px-5 py-2.5 font-semibold text-white shadow-md transition-all duration-200 hover:bg-green-700 hover:shadow-lg active:scale-95"
                 >
-                  <Plus size={20} />
+                  <Plus  />
                   <span>Nouvelle demande</span>
                 </button>
               </div>

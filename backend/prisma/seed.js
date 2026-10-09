@@ -96,6 +96,8 @@ const centres = [
   },
 ];
 
+const roles = ['SUPERADMIN', 'DEMANDEUR', 'AGENT']
+
 async function seedCentres() {
   console.log("Seeding centres ONI...");
 
@@ -116,6 +118,24 @@ async function seedCentres() {
   console.log(`${centres.length} centres seedés avec succès.`);
 }
 
+async function seedRoles() {
+  for (let i=0 ; i<roles.length; i++){
+      await prisma.role.createMany({
+    data: {
+      libelle: roles[i]
+    }
+  })
+  }
+
+
+}
+
+seedRoles().catch((e) => {
+  console.error(e);
+  process.exit(1);
+}).finally(async () => {
+  await prisma.$disconnect();
+})
 seedCentres()
   .catch((e) => {
     console.error(e);

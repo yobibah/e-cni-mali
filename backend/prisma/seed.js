@@ -4,99 +4,99 @@ const prisma = new PrismaClient();
 
 const centres = [
   {
-    nom: "Centre ONI de Ouagadougou Central",
-    region: "Centre",
-    province: "Kadiogo",
-    commune: "Ouagadougou",
+    nom: "Centre ONI de Bamako Central",
+    region: "District de Bamako",
+    province: "Bamako",
+    commune: "Commune III",
     capacite_journaliere: 150,
   },
   {
-    nom: "Centre ONI de Bobo-Dioulasso",
-    region: "Hauts-Bassins",
-    province: "Houet",
-    commune: "Bobo-Dioulasso",
+    nom: "Centre ONI de Sikasso",
+    region: "Sikasso",
+    province: "Sikasso",
+    commune: "Sikasso",
     capacite_journaliere: 120,
   },
   {
-    nom: "Centre ONI de Koudougou",
-    region: "Centre-Ouest",
-    province: "Boulkiemdé",
-    commune: "Koudougou",
+    nom: "Centre ONI de Ségou",
+    region: "Ségou",
+    province: "Ségou",
+    commune: "Ségou",
+    capacite_journaliere: 100,
+  },
+  {
+    nom: "Centre ONI de Mopti",
+    region: "Mopti",
+    province: "Mopti",
+    commune: "Mopti",
     capacite_journaliere: 80,
   },
   {
-    nom: "Centre ONI de Banfora",
-    region: "Cascades",
-    province: "Comoé",
-    commune: "Banfora",
+    nom: "Centre ONI de Kayes",
+    region: "Kayes",
+    province: "Kayes",
+    commune: "Kayes",
+    capacite_journaliere: 90,
+  },
+  {
+    nom: "Centre ONI de Koulikoro",
+    region: "Koulikoro",
+    province: "Koulikoro",
+    commune: "Koulikoro",
     capacite_journaliere: 70,
   },
   {
-    nom: "Centre ONI de Ouahigouya",
-    region: "Nord",
-    province: "Yatenga",
-    commune: "Ouahigouya",
+    nom: "Centre ONI de Koutiala",
+    region: "Sikasso",
+    province: "Koutiala",
+    commune: "Koutiala",
     capacite_journaliere: 80,
   },
   {
-    nom: "Centre ONI de Dédougou",
-    region: "Boucle du Mouhoun",
-    province: "Mouhoun",
-    commune: "Dédougou",
+    nom: "Centre ONI de Bougouni",
+    region: "Bougouni",
+    province: "Bougouni",
+    commune: "Bougouni",
     capacite_journaliere: 60,
   },
   {
-    nom: "Centre ONI de Fada N'Gourma",
-    region: "Est",
-    province: "Gourma",
-    commune: "Fada N'Gourma",
-    capacite_journaliere: 60,
-  },
-  {
-    nom: "Centre ONI de Manga",
-    region: "Centre-Sud",
-    province: "Zoundwéogo",
-    commune: "Manga",
-    capacite_journaliere: 50,
-  },
-  {
-    nom: "Centre ONI de Tenkodogo",
-    region: "Centre-Est",
-    province: "Boulgou",
-    commune: "Tenkodogo",
-    capacite_journaliere: 60,
-  },
-  {
-    nom: "Centre ONI de Kaya",
-    region: "Centre-Nord",
-    province: "Sanmatenga",
-    commune: "Kaya",
+    nom: "Centre ONI de Gao",
+    region: "Gao",
+    province: "Gao",
+    commune: "Gao",
     capacite_journaliere: 70,
   },
   {
-    nom: "Centre ONI de Ziniaré",
-    region: "Plateau-Central",
-    province: "Oubritenga",
-    commune: "Ziniaré",
+    nom: "Centre ONI de Tombouctou",
+    region: "Tombouctou",
+    province: "Tombouctou",
+    commune: "Tombouctou",
+    capacite_journaliere: 60,
+  },
+  {
+    nom: "Centre ONI de Nioro du Sahel",
+    region: "Nioro",
+    province: "Nioro",
+    commune: "Nioro du Sahel",
     capacite_journaliere: 50,
   },
   {
-    nom: "Centre ONI de Dori",
-    region: "Sahel",
-    province: "Séno",
-    commune: "Dori",
+    nom: "Centre ONI de Kidal",
+    region: "Kidal",
+    province: "Kidal",
+    commune: "Kidal",
     capacite_journaliere: 40,
   },
   {
-    nom: "Centre ONI de Gaoua",
-    region: "Sud-Ouest",
-    province: "Poni",
-    commune: "Gaoua",
-    capacite_journaliere: 40,
+    nom: "Centre ONI de San",
+    region: "Ségou",
+    province: "San",
+    commune: "San",
+    capacite_journaliere: 50,
   },
 ];
 
-const roles = ['SUPERADMIN', 'DEMANDEUR', 'AGENT']
+const roles = ['SUPERADMIN']
 
 async function seedCentres() {
   console.log("Seeding centres ONI...");
@@ -130,12 +130,12 @@ async function seedRoles() {
 
 }
 
-seedRoles().catch((e) => {
-  console.error(e);
-  process.exit(1);
-}).finally(async () => {
-  await prisma.$disconnect();
-})
+// seedRoles().catch((e) => {
+//   console.error(e);
+//   process.exit(1);
+// }).finally(async () => {
+//   await prisma.$disconnect();
+// })
 seedCentres()
   .catch((e) => {
     console.error(e);

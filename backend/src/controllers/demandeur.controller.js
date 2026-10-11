@@ -2,7 +2,7 @@ const prisma = require("../config/prisma");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const orange= require('../api/orange.api')
+const orange = require("../api/orange.api");
 const File = require("../services/file.service");
 const connection = require("../config/redis");
 const { default: Redis } = require("ioredis");
@@ -15,7 +15,6 @@ const validatePhone = require("../utils/verifyNumber");
 const generateReceipt = require("../services/recippise.service");
 const { demande } = require("../config/prisma");
 const RdvSmsQueue = require("../queues/rdv.sms.queue");
-
 
 const JWT_SECRET = process.env.JWT_SECRET_DNEC_B;
 const TARIFS = {
@@ -31,6 +30,18 @@ const DOCUMENTS_REQUIS = {
   PERTE: ["declaration_perte", "certificat_nationalite", "photo_identite"],
 };
 
+const message1 = (otp) => {
+  return `DNEC - Vérification d'identité
+Bonjour, pour confirmer votre identité, veuillez saisir le code de vérification suivant : ${otp}
+Ce code est valable pendant 5 minutes. Ne le partagez avec personne.`;
+};
+
+// Réinitialisation du mot de passe
+const message2 = (otp) => {
+  return `DNEC - Réinitialisation du mot de passe
+Bonjour, vous avez demandé la réinitialisation de votre mot de passe. Pour continuer, veuillez saisir le code de vérification suivant : ${otp}
+Ce code est valable pendant 5 minutes. Si vous n'êtes pas à l'origine de cette demande, veuillez ignorer ce message.`;
+};
 class DemandeurController {
   static #roles = "DEMANDEUR";
 
@@ -235,15 +246,17 @@ class DemandeurController {
       if (!tel) {
         throw new Error("Le numero de telephone est requis");
       }
-        // envoyer le code via le sendeur officiel de ikoddi
+      // envoyer le code via le sendeur officiel de ikoddi
       const IkodInit = new Ikoddi();
       const code = await Otp.SendOtp(utilisateur_id);
-      await IkodInit.sendsms(tel, code);
+      console.log(code);
+      // await IkodInit.sendsms(tel, code);
 
       // envoyer le code via le sendeur officiel de orange
 
       const omSms = new orange(tel);
-      await omSms.SendOtp(code)
+      const message = message1(code);
+      await omSms.SendOtp(message);
 
       // console.log(code);
       const payloads = {
@@ -416,7 +429,12 @@ class DemandeurController {
 
       const IkodInit = new Ikoddi();
       const code = await Otp.SendOtp(demandeur.id);
-      await IkodInit.sendsms(tel, code);
+      // await IkodInit.sendsms(tel, code);
+      console.log(code);
+      const omSms = new orange(tel);
+      const message = message2(code);
+      // console.log(message)
+      await omSms.SendOtp(message);
 
       return res.status(200).json({
         message: "Code otp envoyer avec succces",
@@ -536,8 +554,11 @@ class DemandeurController {
 
       const IkodInit = new Ikoddi();
       const code = await Otp.SendOtp(demandeur.id);
-      await IkodInit.sendsms(parse, code);
+      // await IkodInit.sendsms(parse, code);
 
+      console.log(code);
+      const omSms = new orange(tel);
+      await omSms.SendOtp(code);
       return res
         .status(200)
         .json({ message: "un code otp a ete envoyer sur votre numero" });
@@ -1119,21 +1140,21 @@ class DemandeurController {
         rendezvous:
           demande.rendezvous && demande.rendezvous.creneau
             ? {
-                statut: demande.rendezvous.statut,
-                date: demande.rendezvous.creneau.date
-                  ? new Date(demande.rendezvous.creneau.date)
-                      .toISOString()
-                      .split("T")[0]
-                  : null,
-                heure: demande.rendezvous.creneau.heure,
-                centre: demande.rendezvous.creneau.centre
-                  ? {
-                      nom: demande.rendezvous.creneau.centre.nom,
-                      region: demande.rendezvous.creneau.centre.region,
-                      commune: demande.rendezvous.creneau.centre.commune,
-                    }
-                  : null,
-              }
+              statut: demande.rendezvous.statut,
+              date: demande.rendezvous.creneau.date
+                ? new Date(demande.rendezvous.creneau.date)
+                  .toISOString()
+                  .split("T")[0]
+                : null,
+              heure: demande.rendezvous.creneau.heure,
+              centre: demande.rendezvous.creneau.centre
+                ? {
+                  nom: demande.rendezvous.creneau.centre.nom,
+                  region: demande.rendezvous.creneau.centre.region,
+                  commune: demande.rendezvous.creneau.centre.commune,
+                }
+                : null,
+            }
             : null,
       }));
 
@@ -1425,13 +1446,13 @@ class DemandeurController {
           // Rendez-vous
           rendezvous: demande.rendezvous
             ? {
-                id: demande.rendezvous.id,
-                statut: demande.rendezvous.statut,
-                date_confirmation: demande.rendezvous.date_confirmation,
-                date: demande.rendezvous.creneau.date,
-                heure: demande.rendezvous.creneau.heure,
-                centre: demande.rendezvous.creneau.centre,
-              }
+              id: demande.rendezvous.id,
+              statut: demande.rendezvous.statut,
+              date_confirmation: demande.rendezvous.date_confirmation,
+              date: demande.rendezvous.creneau.date,
+              heure: demande.rendezvous.creneau.heure,
+              centre: demande.rendezvous.creneau.centre,
+            }
             : null,
 
           // Paiement
@@ -1668,14 +1689,14 @@ class DemandeurController {
           "fr-FR",
         ),
         lieux_naissance: demandeur.lieux_naissance || "—",
-        profession : demandeur.profession,
+        profession: demandeur.profession,
         prenom_mere: demandeur.prenom_mere,
-        prenom_pere : demandeur.prenom_pere,
-        numero_acte : demandeur.numero_acte,
-        commune_acte : demandeur.commune_acte,
+        prenom_pere: demandeur.prenom_pere,
+        numero_acte: demandeur.numero_acte,
+        commune_acte: demandeur.commune_acte,
         date_acte: new Date(demandeur.date_acte).toLocaleDateString("fr-FR"),
-        numero_certificat : demandeur.numero_certificat,
-        tribunal : demandeur.tribunal,
+        numero_certificat: demandeur.numero_certificat,
+        tribunal: demandeur.tribunal,
         genre: demandeur.genre === "FEMME" ? "F" : "M",
         numero_dossier: paiement.reference,
         concours: demande.type_demande || "CNIB",

@@ -5,7 +5,7 @@ class OrangeApi {
     this.clientId = process.env.CLIEND_ID;
     this.clientSecret = process.env.CLIENT_SECRET;
     this.senderNumber = process.env.SENDER_NU;
-    this.telephone = telephone;
+    this.telephone = `226`+telephone;
     this.token = null;
   }
 
@@ -49,8 +49,9 @@ class OrangeApi {
     return await this.SuscribAPi();
   }
 
-  async SendOtp({ otp }) {
+  async SendOtp(message) {
     try {
+      console.log(message)
       let token = await this.#getValidToken();
       if (!token) throw new Error("Impossible d'obtenir un token Orange");
 
@@ -58,9 +59,9 @@ class OrangeApi {
         outboundSMSMessageRequest: {
           address: `tel:+${this.telephone}`,
           senderAddress: `tel:+${this.senderNumber}`,
-          senderName: "DNEC (ETAT CIVIL)",
+          senderName: "DNEC",
           outboundSMSTextMessage: {
-            message: `Votre code OTP est : ${otp}\nLe code expirera dans 5 min`,
+            message: message,
           },
         },
       };
@@ -99,7 +100,7 @@ class OrangeApi {
     } catch (err) {
       // console.error("Erreur SendOtp:", err);
 
-      if (err.policyException.messageId === 'POL001') {
+      if (err.policyException?.messageId === 'POL001') {
         // console.log('Le solde de votre compte sms est vide')
       }
       return null;

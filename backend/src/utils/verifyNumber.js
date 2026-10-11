@@ -5,12 +5,12 @@ const validatePhone = (value) => {
 
   const cleaned = value.replace(/\s+/g, "");
 
-  const match = cleaned.match(/^(\+?223)?(\d{8})$/);
+  const match = cleaned.match(/^(\+?226)?(\d{8})$/);
 
   if (!match) {
     return {
       valid: false,
-      message: "Numéro invalide. Ex : 70000000 ou +22370000000",
+      message: "Numéro invalide. Ex : 70000000 ou +22670000000",
     };
   }
 
@@ -18,7 +18,7 @@ const validatePhone = (value) => {
 
   return {
     valid: true,
-    formatted: `223${local}`,
+    formatted: `226${local}`,
   };
 };
 
